@@ -13,9 +13,11 @@ dependencies = []
 
 [project.optional-dependencies]
 live = ["openai>=1.0", "contree-cli"]
+web = ["openai>=1.0", "flask>=3.0", "gunicorn>=23"]
 
 [project.scripts]
 branchsmith = "branchsmith.cli:main"
+branchsmith-web = "branchsmith.web:main"
 
 [tool.setuptools.packages.find]
 include = ["branchsmith*"]

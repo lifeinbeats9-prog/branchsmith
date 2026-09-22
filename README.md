@@ -96,6 +96,24 @@ Primary target: **Coding and Agentic Engineering** when live ConTree access is a
 
 Fallback: **Best Apps and Agents** if ConTree access is unavailable at submission time. The core product and Token Factory/Nemotron runtime remain the same; only the execution backend and track selection change.
 
+## Hosted demo
+
+The repository includes a deliberately constrained web demo. It runs only the bundled public `buggy_calc` fixture, so the hosted service never executes user-supplied repositories or commands.
+
+~~~bash
+pip install -e '.[web]'
+export NEBIUS_API_KEY='...'
+gunicorn --bind 0.0.0.0:${PORT:-8000} branchsmith.web:app
+~~~
+
+Endpoints:
+
+- `/` — interactive live repair demo.
+- `/healthz` — no-secret health metadata.
+- `/api/demo` — fixed-fixture live Nemotron repair experiment with a short result cache and single-run lock.
+
+The Token Factory API key stays server-side.
+
 ## Open source
 
 BranchSmith is MIT-licensed. The repository is self-contained and does not require unrelated private systems at runtime.
