@@ -42,8 +42,9 @@ def run_repair(*, repo: Path, issue: str, test_command: str, planner: Planner, s
     results: list[CandidateResult] = []
     for candidate in candidates:
         test = sandbox.evaluate(repo, candidate, test_command)
-        results.append(CandidateResult(candidate, test, len(candidate.edits)))
+        edit_span_chars = sum(max(len(edit.old), len(edit.new)) for edit in candidate.edits)
+        results.append(CandidateResult(candidate, test, len(candidate.edits), edit_span_chars))
     passing = [x for x in results if x.test.passed]
-    passing.sort(key=lambda x: (x.edit_count, x.candidate.candidate_id))
+    passing.sort(key=lambda x: (x.edit_count, x.edit_span_chars, x.candidate.candidate_id))
     winner = passing[0].candidate.candidate_id if passing else None
     return RunReport(issue, baseline, tuple(results), winner, planner.name, sandbox.name)

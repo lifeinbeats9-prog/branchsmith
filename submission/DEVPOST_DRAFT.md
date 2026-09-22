@@ -18,7 +18,7 @@ Given a failing repository, an issue description, and a trusted test command, Br
 2. asks NVIDIA Nemotron for multiple small, distinct repair candidates;
 3. evaluates each candidate independently;
 4. runs the exact same test command for every candidate;
-5. selects a passing candidate with the smallest edit count;
+5. ranks passing candidates by fewest edits, then smallest replaced source span, with candidate ID only as the final deterministic tie-break;
 6. returns no winner when no candidate passes.
 
 ## Execution backends
@@ -45,7 +45,7 @@ The model routing key and API base URL used by BranchSmith match the official To
 - BranchSmith-owned hosted Token Factory/Nemotron runtime: PASS.
 - Hosted `/api/demo`: HTTP 200 with a real winner selected after unchanged tests.
 - Hosted demo URL: https://branchsmith-demo.onrender.com
-- BranchSmith v0.3 local tests: 15/15 PASS.
+- BranchSmith v0.3 local tests: 16/16 PASS.
 - Compile validation: PASS.
 - Evidence-dashboard smoke test: PASS.
 - Public GitHub Actions: PASS on Python 3.10, 3.11 and 3.12.
@@ -57,7 +57,7 @@ The model routing key and API base URL used by BranchSmith match the official To
 
 https://github.com/lifeinbeats9-prog/branchsmith
 
-Release: `v0.3.0`.
+Release: `v0.3.1`.
 
 The repository is MIT-licensed and contains the product source, tests, fixture, web demo surface, setup instructions and submission documentation.
 

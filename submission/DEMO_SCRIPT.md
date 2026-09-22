@@ -42,7 +42,7 @@ Explain that Sandboxes availability changes the execution backend, not the repai
 
 ## 2:18–2:35 — Reproducibility
 
-Show the public GitHub repository, MIT license, `v0.3.0` release, and green CI across Python 3.10/3.11/3.12.
+Show the public GitHub repository, MIT license, `v0.3.1` release, and green CI across Python 3.10/3.11/3.12.
 
 ## 2:35–2:45 — Close
 

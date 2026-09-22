@@ -97,6 +97,38 @@ class EngineTests(unittest.TestCase):
             sandbox = select_sandbox("auto")
         self.assertIsInstance(sandbox, LocalSandbox)
 
+    def test_passing_tie_prefers_narrower_edit_span(self):
+        class TwoPassingPlanner:
+            name = "two-passing"
+
+            def plan(self, **kwargs):
+                return [
+                    Candidate(
+                        "a-wide",
+                        "Replace the whole return statement.",
+                        (Edit("calc.py", "return a - b", "return a + b"),),
+                    ),
+                    Candidate(
+                        "z-narrow",
+                        "Replace only the operator token.",
+                        (Edit("calc.py", " - ", " + "),),
+                    ),
+                ]
+
+        with tempfile.TemporaryDirectory() as td:
+            repo = self.make_repo(Path(td))
+            report = run_repair(
+                repo=repo,
+                issue="add returns subtraction",
+                test_command="python -m unittest -q",
+                planner=TwoPassingPlanner(),
+                sandbox=LocalSandbox(),
+                candidate_count=2,
+            )
+        self.assertEqual(report.winner_id, "z-narrow")
+        spans = {result.candidate.candidate_id: result.edit_span_chars for result in report.candidates}
+        self.assertLess(spans["z-narrow"], spans["a-wide"])
+
     def test_docker_backend_disables_network(self):
         from branchsmith.sandbox import DockerSandbox
 

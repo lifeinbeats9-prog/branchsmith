@@ -237,7 +237,7 @@ _INDEX_TEMPLATE = """<!doctype html>
     return '<article class="candidate' + (isWinner ? ' winner' : '') + '">' +
       '<div class="candidate-head"><span class="candidate-id">' + esc(c.candidate_id) + '</span><span>' + status + win + '</span></div>' +
       '<div class="rationale">' + esc(c.rationale) + '</div>' +
-      '<div class="meta">exit ' + esc(t.exit_code) + ' · edits ' + esc(item.edit_count) + '</div>' +
+      '<div class="meta">exit ' + esc(t.exit_code) + ' · edits ' + esc(item.edit_count) + ' · span ' + esc(item.edit_span_chars) + ' chars</div>' +
       edits + '</article>';
   }
 
@@ -250,7 +250,8 @@ _INDEX_TEMPLATE = """<!doctype html>
     summaryEl.innerHTML =
       '<div><strong>' + (winner ? 'Repair accepted' : 'No repair accepted') + '</strong></div>' +
       '<div class="meta">run ' + esc(data.run_id) + ' · ' + esc(data.generated_at_utc) + '</div>' +
-      '<p>' + esc(data.evidence_rule) + '</p>';
+      '<p>' + esc(data.evidence_rule) + '</p>' +
+      '<p class="meta">Winner policy: ' + esc(evidence.winner_policy) + '</p>';
 
     metricsEl.style.display = "grid";
     metricsEl.innerHTML =
@@ -360,7 +361,7 @@ def demo():
             "evidence": {
                 "candidate_count": len(candidates),
                 "pass_count": pass_count,
-                "winner_policy": "passing candidate with the smallest edit count; candidate_id breaks ties",
+                "winner_policy": "fewest edits, then smallest replaced source span, then candidate_id",
                 "baseline_expected_to_fail": True,
             },
             "evidence_rule": "winner_id is present only when the unchanged test command passes",

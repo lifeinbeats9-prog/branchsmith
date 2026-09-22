@@ -11,7 +11,7 @@ Instead of asking one model for one patch, BranchSmith asks NVIDIA Nemotron for 
 3. Parse multiple precise candidate edits.
 4. Evaluate each candidate independently using one of three execution backends.
 5. Run the exact same test command for every candidate.
-6. Return a passing candidate with the smallest edit count, or return no winner.
+6. Rank passing candidates by fewest edits, then smallest replaced source span, then candidate ID; return no winner when none pass.
 
 ## Execution backends
 

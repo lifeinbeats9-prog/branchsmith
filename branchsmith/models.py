@@ -47,6 +47,7 @@ class CandidateResult:
     candidate: Candidate
     test: TestResult
     edit_count: int
+    edit_span_chars: int
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -54,6 +55,7 @@ class CandidateResult:
             "test": asdict(self.test),
             "passed": self.test.passed,
             "edit_count": self.edit_count,
+            "edit_span_chars": self.edit_span_chars,
         }
 
 
