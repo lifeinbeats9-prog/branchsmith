@@ -55,7 +55,7 @@ The model routing key and API base URL used by BranchSmith match the official To
 
 https://github.com/lifeinbeats9-prog/branchsmith
 
-Release: `v0.2.0`.
+Release: `v0.2.1`.
 
 The repository is MIT-licensed and contains the product source, tests, fixture, web demo surface, setup instructions and submission documentation.
 

@@ -28,7 +28,7 @@
 
 https://github.com/lifeinbeats9-prog/branchsmith
 
-Current release: `v0.2.0`.
+Current release: `v0.2.1`.
 
 ## Optional surfaces
 

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import shlex
+import sys
 import threading
 import time
 from pathlib import Path
@@ -16,6 +18,7 @@ app = Flask(__name__)
 _MODEL = "nvidia/nemotron-3-super-120b-a12b"
 _FIXTURE = Path(__file__).resolve().parents[1] / "examples" / "buggy_calc"
 _LOCK = threading.Lock()
+_TEST_COMMAND = f"{shlex.quote(sys.executable)} -m unittest -q"
 _CACHE_TTL_SECONDS = 60
 _cached_at = 0.0
 _cached_payload: dict | None = None
@@ -94,7 +97,7 @@ def demo():
         report = run_repair(
             repo=_FIXTURE,
             issue="add() subtracts instead of adding",
-            test_command="python -m unittest -q",
+            test_command=_TEST_COMMAND,
             planner=NemotronPlanner(),
             sandbox=LocalSandbox(timeout_seconds=30, deny_network=True),
             candidate_count=3,
