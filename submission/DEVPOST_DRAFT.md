@@ -1,4 +1,4 @@
-# Devpost draft — BranchSmith v0.2
+# Devpost draft — BranchSmith v0.3
 
 ## One-line description
 
@@ -42,10 +42,12 @@ The model routing key and API base URL used by BranchSmith match the official To
 ## Current evidence
 
 - Live Token Factory Playground inference with Nemotron 3 Super: PASS.
-- Observed live response for the witness prompt: `BRANCHSMITH_LIVE_OK`.
-- BranchSmith v0.2 local tests: 13/13 PASS.
+- BranchSmith-owned hosted Token Factory/Nemotron runtime: PASS.
+- Hosted `/api/demo`: HTTP 200 with a real winner selected after unchanged tests.
+- Hosted demo URL: https://branchsmith-demo.onrender.com
+- BranchSmith v0.3 local tests: 15/15 PASS.
 - Compile validation: PASS.
-- Hosted web surface smoke test: PASS.
+- Evidence-dashboard smoke test: PASS.
 - Public GitHub Actions: PASS on Python 3.10, 3.11 and 3.12.
 - Governance/private-system leak scan before publication: PASS.
 - Secret-material scan before publication: PASS.
@@ -55,7 +57,7 @@ The model routing key and API base URL used by BranchSmith match the official To
 
 https://github.com/lifeinbeats9-prog/branchsmith
 
-Release: `v0.2.1`.
+Release: `v0.3.0`.
 
 The repository is MIT-licensed and contains the product source, tests, fixture, web demo surface, setup instructions and submission documentation.
 
@@ -69,9 +71,9 @@ The evidence rule is simple: no passing test, no winner.
 
 The hosted demo uses only the bundled public `buggy_calc` fixture. It does not execute user-supplied code or commands. The Token Factory API key remains server-side.
 
-Demo URL: TBD after deployment.
+Demo URL: https://branchsmith-demo.onrender.com
 
-## Sponsor feedback notes to complete after final live witness
+## Sponsor feedback notes to finalize after the ConTree access decision
 
 - Token Factory model quality and response-shape reliability.
 - ConTree onboarding and beta-access friction.

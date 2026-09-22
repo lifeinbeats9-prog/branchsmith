@@ -98,7 +98,18 @@ Fallback: **Best Apps and Agents** if ConTree access is unavailable at submissio
 
 ## Hosted demo
 
-The repository includes a deliberately constrained web demo. It runs only the bundled public `buggy_calc` fixture, so the hosted service never executes user-supplied repositories or commands.
+Live demo: https://branchsmith-demo.onrender.com
+
+The hosted surface is deliberately constrained to the bundled public `buggy_calc` fixture, so it never executes user-supplied repositories or commands.
+
+The v0.3 evidence dashboard presents:
+
+- the intentionally failing source baseline;
+- the live NVIDIA Nemotron / Nebius Token Factory planner;
+- each candidate patch as a separate evidence card;
+- unchanged-test exit status for every candidate;
+- the selected winner, backend, runtime, cache state and release;
+- expandable raw JSON for reproducibility.
 
 ~~~bash
 pip install -e '.[web]'
@@ -108,8 +119,8 @@ gunicorn --bind 0.0.0.0:${PORT:-8000} branchsmith.web:app
 
 Endpoints:
 
-- `/` — interactive live repair demo.
-- `/healthz` — no-secret health metadata.
+- `/` — interactive evidence dashboard.
+- `/healthz` — no-secret health and release metadata.
 - `/api/demo` — fixed-fixture live Nemotron repair experiment with a short result cache and single-run lock.
 
 The Token Factory API key stays server-side.

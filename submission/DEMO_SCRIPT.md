@@ -8,27 +8,28 @@ Narration: software-repair agents usually collapse uncertainty into one patch. B
 
 ## 0:18–0:42 — Live model
 
-Open the hosted BranchSmith demo and run the fixed public repair experiment.
+Open https://branchsmith-demo.onrender.com and run the fixed public repair experiment.
 
-Show that the planner is NVIDIA Nemotron 3 Super through Nebius Token Factory.
+Show the dashboard's live model badge and evidence summary: NVIDIA Nemotron 3 Super through Nebius Token Factory.
 
 ## 0:42–1:25 — Competing repairs
 
-Show the JSON report containing multiple candidate edits.
+Show the candidate cards rather than leading with raw JSON.
 
-Point out that every candidate starts from the same source baseline and is tested independently with the same unchanged test command.
+Point out that every candidate starts from the same source baseline and is tested independently with the same unchanged test command. The cards expose the proposed edit, test exit status and winner marker.
 
 If ConTree beta access is active by recording time, show the native ConTree branches/checkpoints here. Otherwise show the isolated fallback backend and state that the product automatically upgrades to ConTree when available.
 
 ## 1:25–1:55 — Evidence-bound winner
 
-Show failed alternatives beside the passing repair.
+Show the winner card and the evidence summary.
 
 Highlight:
 
-- baseline fails;
-- one or more candidate branches fail;
-- only a candidate with test exit code 0 may become `winner_id`;
+- baseline fails before planning;
+- every candidate receives an independent test result;
+- only a candidate with test exit code 0 is eligible to win;
+- passing candidates are ranked by edit count, then candidate ID;
 - no passing test means no winner.
 
 ## 1:55–2:18 — Resilience
@@ -41,7 +42,7 @@ Explain that Sandboxes availability changes the execution backend, not the repai
 
 ## 2:18–2:35 — Reproducibility
 
-Show the public GitHub repository, MIT license, `v0.2.0` release, and green CI across Python 3.10/3.11/3.12.
+Show the public GitHub repository, MIT license, `v0.3.0` release, and green CI across Python 3.10/3.11/3.12.
 
 ## 2:35–2:45 — Close
 

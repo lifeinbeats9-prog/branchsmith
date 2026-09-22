@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "branchsmith"
-version = "0.2.1"
+version = "0.3.0"
 description = "Evidence-driven software repair across Nebius Token Factory Sandbox branches using NVIDIA Nemotron."
 requires-python = ">=3.10"
 license = {text = "MIT"}
