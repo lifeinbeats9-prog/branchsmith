@@ -7,20 +7,28 @@
 - [x] Product architecture includes a runtime Nebius Token Factory inference call.
 - [x] Selected NVIDIA open model: `nvidia/nemotron-3-super-120b-a12b`.
 - [x] Dual execution backend implemented: ConTree preferred; Docker/local fallback.
-- [x] Local fallback QA complete.
+- [x] Local fallback QA complete: 13/13 tests PASS.
 - [x] Live Nemotron inference observed in Token Factory Playground.
-- [ ] BranchSmith-owned Token Factory API runtime witness captured.
-- [ ] Live ConTree branch/test witness captured if Coding track is used.
-- [ ] Working public demo URL/test build available to judges.
-- [ ] Separate task-local repository made public.
+- [x] Separate public task-local repository created.
+- [x] Public CI passes on Python 3.10, 3.11 and 3.12.
 - [x] Product source has an MIT open-source license.
 - [x] README contains setup/run instructions.
+- [x] Constrained hosted-demo code surface implemented and smoke-tested.
+- [ ] BranchSmith-owned Token Factory API runtime witness captured.
+- [ ] Live ConTree branch/test witness captured if Coding track is used.
+- [ ] Working public demo URL available to judges.
 - [ ] Public YouTube demo, under 3 minutes, published.
-- [ ] Devpost description names the Nebius/NVIDIA components.
+- [ ] Final Devpost description completed from live evidence.
 - [ ] Final track selected in Devpost.
-- [ ] Feedback provided in the submission form.
+- [ ] Sponsor-tool/model feedback finalized.
 - [ ] Judge access confirmed free/unrestricted through the judging period.
 - [ ] Final submission completed before the binding deadline.
+
+## Public repository
+
+https://github.com/lifeinbeats9-prog/branchsmith
+
+Current release: `v0.2.0`.
 
 ## Optional surfaces
 
