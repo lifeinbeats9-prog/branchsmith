@@ -108,6 +108,7 @@ _INDEX_TEMPLATE = """<!doctype html>
     }
     button:disabled { cursor: wait; opacity: .55; }
     .state { font-size: 13px; color: var(--muted); }
+    .state.error { color: var(--bad); }
     .summary {
       display: grid;
       grid-template-columns: repeat(4, minmax(0,1fr));
@@ -144,6 +145,7 @@ _INDEX_TEMPLATE = """<!doctype html>
     details { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
     summary { cursor: pointer; color: var(--muted); font-size: 13px; }
     #raw { max-height: 420px; overflow: auto; font-size: 11px; }
+    .output { max-height: 240px; overflow: auto; font-size: 11px; }
     .rule { border-left: 3px solid var(--accent); padding: 10px 12px; background: rgba(157,183,255,.06); border-radius: 7px; color: #d8e0ed; }
     footer { margin-top: 22px; color: var(--muted); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
     @media (max-width: 800px) {
@@ -174,7 +176,7 @@ _INDEX_TEMPLATE = """<!doctype html>
       <div class="code">__SOURCE__</div>
       <div class="action-row">
         <button id="run">Run live repair experiment</button>
-        <span class="state" id="state">Ready.</span>
+        <span class="state" id="state" role="status" aria-live="polite">Ready.</span>
       </div>
       <div class="rule" style="margin-top:18px"><strong>Evidence rule:</strong> a candidate can only win after the unchanged test command exits 0.</div>
     </div>
@@ -182,6 +184,7 @@ _INDEX_TEMPLATE = """<!doctype html>
     <div class="panel">
       <h2>02 · Evidence summary</h2>
       <div id="summary" class="empty">Run the experiment to generate live evidence.</div>
+      <div id="baseline" class="empty" hidden></div>
       <div id="metrics" class="summary" style="display:none"></div>
     </div>
   </section>
@@ -206,6 +209,7 @@ _INDEX_TEMPLATE = """<!doctype html>
   const runButton = document.getElementById("run");
   const stateEl = document.getElementById("state");
   const summaryEl = document.getElementById("summary");
+  const baselineEl = document.getElementById("baseline");
   const metricsEl = document.getElementById("metrics");
   const candidatesEl = document.getElementById("candidates");
   const rawEl = document.getElementById("raw");
@@ -223,6 +227,13 @@ _INDEX_TEMPLATE = """<!doctype html>
     return '<div class="metric"><div class="label">' + esc(label) + '</div><div class="value">' + esc(value) + '</div></div>';
   }
 
+  function renderOutput(title, result) {
+    if (!result) return "";
+    const output = [result.stdout, result.stderr].filter(Boolean).join("\\n");
+    return '<details><summary>' + esc(title) + ' · exit ' + esc(result.exit_code) + '</summary>' +
+      '<pre class="code output">' + esc(output || "(no output)") + '</pre></details>';
+  }
+
   function renderCandidate(item, winnerId) {
     const c = item.candidate || {};
     const t = item.test || {};
@@ -238,7 +249,7 @@ _INDEX_TEMPLATE = """<!doctype html>
       '<div class="candidate-head"><span class="candidate-id">' + esc(c.candidate_id) + '</span><span>' + status + win + '</span></div>' +
       '<div class="rationale">' + esc(c.rationale) + '</div>' +
       '<div class="meta">exit ' + esc(t.exit_code) + ' · edits ' + esc(item.edit_count) + ' · span ' + esc(item.edit_span_chars) + ' chars</div>' +
-      edits + '</article>';
+      edits + renderOutput("Candidate test output", t) + '</article>';
   }
 
   function renderResult(data) {
@@ -252,6 +263,11 @@ _INDEX_TEMPLATE = """<!doctype html>
       '<div class="meta">run ' + esc(data.run_id) + ' · ' + esc(data.generated_at_utc) + '</div>' +
       '<p>' + esc(data.evidence_rule) + '</p>' +
       '<p class="meta">Winner policy: ' + esc(evidence.winner_policy) + '</p>';
+
+    const baseline = report.baseline;
+    baselineEl.hidden = !baseline;
+    baselineEl.className = "";
+    baselineEl.innerHTML = baseline ? '<strong>Baseline · ' + (report.baseline.passed ? 'PASS' : 'EXPECTED FAIL') + '</strong>' + renderOutput("Baseline test output", baseline) : "";
 
     metricsEl.style.display = "grid";
     metricsEl.innerHTML =
@@ -274,15 +290,21 @@ _INDEX_TEMPLATE = """<!doctype html>
 
   runButton.addEventListener("click", async function() {
     runButton.disabled = true;
+    stateEl.className = "state";
     stateEl.textContent = "Calling Nemotron and testing candidate repairs...";
     try {
       const response = await fetch("/api/demo", { method: "POST" });
       const data = await response.json();
+      rawEl.textContent = JSON.stringify(data, null, 2);
+      const completedWithoutWinner = response.status === 422 && data.report;
+      if (!response.ok && !completedWithoutWinner) {
+        throw new Error(data.error || "Experiment returned HTTP " + response.status);
+      }
       renderResult(data);
-      stateEl.textContent = response.ok ? "Live evidence complete." : "Run completed without a winner.";
+      stateEl.textContent = data.report && data.report.winner_id ? "Live evidence complete." : "Experiment complete: no repair passed.";
     } catch (err) {
-      stateEl.textContent = "Request failed.";
-      rawEl.textContent = String(err);
+      stateEl.className = "state error";
+      stateEl.textContent = "Experiment failed: " + String(err.message || err);
     } finally {
       runButton.disabled = false;
     }

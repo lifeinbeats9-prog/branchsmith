@@ -18,6 +18,24 @@ class WebTests(unittest.TestCase):
         self.assertIn(b"Multiple repair hypotheses", response.data)
         self.assertIn(b"Competing candidates", response.data)
 
+    def test_index_shows_baseline_and_candidate_test_output(self):
+        response = self.client.get("/")
+        page = response.get_data(as_text=True)
+        self.assertIn('id="baseline"', page)
+        self.assertIn("Baseline test output", page)
+        self.assertIn("Candidate test output", page)
+        self.assertIn('aria-live="polite"', page)
+        self.assertIn("Experiment failed:", page)
+
+    def test_api_errors_are_returned_as_error_state_without_running_inference(self):
+        with mock.patch.dict("os.environ", {"NEBIUS_API_KEY": "test-only"}), mock.patch(
+            "branchsmith.web.NemotronPlanner"
+        ), mock.patch("branchsmith.web.run_repair", side_effect=RuntimeError("provider unavailable")) as run:
+            response = self.client.post("/api/demo")
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.get_json(), {"error": "RuntimeError"})
+        run.assert_called_once()
+
     def test_healthz_is_stable(self):
         response = self.client.get("/healthz")
         self.assertEqual(response.status_code, 200)
