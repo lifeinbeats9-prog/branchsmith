@@ -1,53 +1,33 @@
-# BranchSmith demo script — target 2:20–2:45
+# BranchSmith demo script — target 2:30
 
-## 0:00–0:18 — Problem
+## 0:00–0:20 — The problem
 
-Show the broken `buggy_calc` fixture and its failing tests.
+Show the bundled `buggy_calc` source returning subtraction and its failing baseline test.
 
-Narration: software-repair agents usually collapse uncertainty into one patch. BranchSmith treats repair candidates as competing hypotheses.
+Narration: “One generated patch hides uncertainty. BranchSmith treats repair candidates as competing hypotheses.”
 
-## 0:18–0:42 — Live model
+## 0:20–0:40 — Nebius and NVIDIA
 
-Open https://branchsmith-demo.onrender.com and run the fixed public repair experiment.
+Show BranchSmith's Token Factory planner configuration and NVIDIA Nemotron 3 Super model identifier. Keep credentials and private account details off-screen.
 
-Show the dashboard's live model badge and evidence summary: NVIDIA Nemotron 3 Super through Nebius Token Factory.
+## 0:40–1:20 — Independent candidates
 
-## 0:42–1:25 — Competing repairs
+Run one live, authorized experiment. Show the baseline failure, each candidate patch, and each unchanged-test result. Explain that the public hosted dashboard uses only the fixed `buggy_calc` fixture and a local isolated test sandbox.
 
-Show the candidate cards rather than leading with raw JSON.
+## 1:20–1:55 — Native coding path
 
-Point out that every candidate starts from the same source baseline and is tested independently with the same unchanged test command. The cards expose the proposed edit, test exit status and winner marker.
+Show the CLI selecting Nebius Token Factory Sandboxes / ConTree, the baseline checkpoint, an independent candidate branch, identical test command, staged files, and the result. Capture a sanitized public-product run; do not show private repository names, private paths, or credentials.
 
-If ConTree beta access is active by recording time, show the native ConTree branches/checkpoints here. Otherwise show the isolated fallback backend and state that the product automatically upgrades to ConTree when available.
+If a fresh public-product native run is not available, label this section as a development witness and state its scope. Do not imply that a private regression test proves full product acceptance.
 
-## 1:25–1:55 — Evidence-bound winner
+## 1:55–2:20 — Evidence-bound winner
 
-Show the winner card and the evidence summary.
+Show the winner card and policy: tests must pass; passing candidates are ranked by edit count, replaced source span, and candidate ID; no passing candidate means no winner.
 
-Highlight:
+## 2:20–2:30 — Reproducibility
 
-- baseline fails before planning;
-- every candidate receives an independent test result;
-- only a candidate with test exit code 0 is eligible to win;
-- passing candidates are ranked by edit count, then candidate ID;
-- no passing test means no winner.
-
-## 1:55–2:18 — Resilience
-
-Show the backend selection:
-
-`ConTree -> Docker -> isolated local workspace`.
-
-Explain that Sandboxes availability changes the execution backend, not the repair engine.
-
-## 2:18–2:35 — Reproducibility
-
-Show the public GitHub repository, MIT license, `v0.3.1` release, and green CI across Python 3.10/3.11/3.12.
-
-## 2:35–2:45 — Close
-
-Show the one-line thesis:
+Show the public GitHub repository, MIT license, setup instructions, and close with:
 
 > Multiple repair hypotheses. Same baseline. Same tests. Evidence decides.
 
-Keep the final uploaded video below the official three-minute limit.
+Keep the final video below three minutes. Upload it publicly to YouTube and avoid unlicensed music or other third-party material.
